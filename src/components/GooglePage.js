@@ -6,19 +6,38 @@ class GoogleSearchBox extends React.Component{
     state = {
         // myFirstTextboxInputValue :"",
         // myLastTextboxInputValue :"",
-        
+        myApiData: [],
         gender: '',
     };
 
+    componentDidMount()
+    {
+        fetch("https://pokeapi.co/api/v2/pokemon/pikachu/")
+            .then(response => {
+                const data=response.json();
+                // console.log(data)
+                return data;
+             }).then(response => {
+                // console.log(response)
+                const gameIndices =response.game_indices;
+                this.setState({myApiData: gameIndices})                
+             }).catch(error => console.log(error)
+
+             )
+
+    }
+
     render(){
-        // console.log(this.state.myInputValue)
+        //  console.log(this.state.myApiData)
         return (
         <div className="App-button">
         
+            {this.state.myApiData.map(item => {
+                 return <div>{item.game_index}</div>
+            })
+            }
+
         {this.props.customprops}
-
-
-
             <CustomInput
                 myLabel="First Name:"
                 myPlaceHolder="Please Type First Name"
@@ -67,7 +86,7 @@ class GoogleSearchBox extends React.Component{
     }
 
     handleInput = (event) => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         this.setState({gender:event.target.value
         })
     }

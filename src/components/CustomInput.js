@@ -17,7 +17,7 @@ class CustomInput extends React.Component{
                    type={this.props.myType}
                    placeholder={this.props.myPlaceHolder}
             />
-            {console.log(this.props.mycustomprops)}
+            {/* {console.log(this.props.mycustomprops)} */}
             <span>{this.props.mycustomprops}</span>
 </div>
         );
