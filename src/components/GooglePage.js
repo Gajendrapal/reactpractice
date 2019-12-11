@@ -8,6 +8,8 @@ class GoogleSearchBox extends React.Component{
         // myLastTextboxInputValue :"",
         myApiData: [],
         gender: '',
+        moves:[],
+        myButtonClickValue:""
     };
 
     componentDidMount()
@@ -20,22 +22,61 @@ class GoogleSearchBox extends React.Component{
              }).then(response => {
                 // console.log(response)
                 const gameIndices =response.game_indices;
-                this.setState({myApiData: gameIndices})                
+                const movesList = response.moves;
+                this.setState({
+                    myApiData: gameIndices,
+                    moves:movesList
+                })                
              }).catch(error => console.log(error)
 
              )
 
     }
+    componentDidUpdate(prevProps,prevState)
+    {
+        if(this.state.moves !== prevState.moves)
+        {
+            console.log("Hello world");
+        }
+        if(this.state.myButtonClickValue !== prevState.myButtonClickValue)
+        {
+            console.log("Button clicked");
+        }
+        
+        console.log("prev state: ", prevState);
+        console.log("this state: ", this.state);
+    }
+
+    onButtonClick = (event)=>{
+        event.preventDefault()
+this.setState({
+    myButtonClickValue:"Hello"
+})
+    }
 
     render(){
-        //  console.log(this.state.myApiData)
+        //  console.log(this.state.moves)
+        
         return (
         <div className="App-button">
         
-            {this.state.myApiData.map(item => {
+        <button type="submit" onClick={this.onButtonClick}>Button </button>
+
+            {/* {this.state.myApiData.map(item => {
                  return <div>{item.game_index}</div>
             })
-            }
+            } */}
+            {this.state.moves.map(item => {
+            return <div>{item.move.name}</div>
+            })}
+
+            {/* {this.state.moves.map(item => {
+            return <div>{item.version_group_details.map( item1 => {
+                return <div>{item1.level_learned_at}</div>
+                })}</div>
+            })} */}
+
+
 
         {this.props.customprops}
             <CustomInput
@@ -90,7 +131,6 @@ class GoogleSearchBox extends React.Component{
         this.setState({gender:event.target.value
         })
     }
-    
 }
 
 export default GoogleSearchBox;
